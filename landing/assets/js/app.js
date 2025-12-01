@@ -82,9 +82,23 @@ document.addEventListener('DOMContentLoaded', function () {
   // Nav toggle
   const navToggle = document.querySelector('.nav-toggle');
   const navLinks = document.querySelector('.nav-links');
+  const nav = document.querySelector('.nav');
   navToggle && navToggle.addEventListener('click', () => {
     if (navLinks.style.display === 'flex') navLinks.style.display = 'none';
     else navLinks.style.display = 'flex';
+  });
+
+  // Sticky header on scroll
+  let prevScroll = window.pageYOffset;
+  const header = document.querySelector('.site-header');
+  window.addEventListener('scroll', () => {
+    const s = window.pageYOffset;
+    if (s > 40) {
+      header.classList.add('sticky');
+    } else {
+      header.classList.remove('sticky');
+    }
+    prevScroll = s;
   });
 
   // Contact form simulation
