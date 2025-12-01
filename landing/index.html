@@ -56,39 +56,51 @@
   </header>
 
   <main>
-    <section class="container section steps" id="como-funciona">
-      <h2>Cómo funciona</h2>
-      <p class="lead">Simple y claro: 3 pasos para una compra segura.</p>
-      <div class="steps-wrapper">
-        <div class="step">
-          <div class="step-icon">1</div>
-          <div class="step-body">
+    <section class="section steps" id="como-funciona">
+      <div class="container">
+        <h2>Cómo funciona</h2>
+        <p class="lead">Simple y claro: 3 pasos para una compra segura.</p>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-image">
+              <img src="assets/images/agenda.avif" alt="Agendás una visita" />
+            </div>
             <h3>Agendás una visita</h3>
             <p>Elegís la hora y la dirección donde verificar. A domicilio o en puntos de encuentro.</p>
           </div>
-        </div>
-        <div class="step">
-          <svg class="connector-svg" width="80" height="12" viewBox="0 0 80 4" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M2 2 L78 2" stroke="rgba(217,50,40,0.9)" stroke-width="4" stroke-linecap="round" />
-          </svg>
-        </div>
-        <div class="step">
-          <div class="step-icon">2</div>
-          <div class="step-body">
-            <h3>Verificamos</h3>
-            <p>Técnicos homologados realizan escaneo, prueba de manejo e inspección completa y pruebas de diagnóstico.</p>
+          <div class="step-connector">
+            <svg width="100%" height="60" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="connector-line">
+              <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                  <polygon points="0 0, 10 3, 0 6" fill="rgba(217,50,40,0.6)" />
+                </marker>
+              </defs>
+              <path d="M 10 30 Q 50 10, 90 30" stroke="rgba(217,50,40,0.6)" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#arrowhead)" />
+            </svg>
           </div>
-        </div>
-        <div class="step">
-          <svg class="connector-svg" width="80" height="12" viewBox="0 0 80 4" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M2 2 L78 2" stroke="rgba(217,50,40,0.9)" stroke-width="4" stroke-linecap="round" />
-          </svg>
-        </div>
-        <div class="step">
-          <div class="step-icon">3</div>
-          <div class="step-body">
+          <div class="step-card">
+            <div class="step-image">
+              <img src="assets/images/Dinero.avif" alt="Elegís cómo pagar" />
+            </div>
+            <h3>Elegís cómo pagar</h3>
+            <p>Tarjetas de crédito, débito, efectivo, rapipazo etc. Múltiples opciones de pago para tu comodidad.</p>
+          </div>
+          <div class="step-connector">
+            <svg width="100%" height="60" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="connector-line">
+              <defs>
+                <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                  <polygon points="0 0, 10 3, 0 6" fill="rgba(217,50,40,0.6)" />
+                </marker>
+              </defs>
+              <path d="M 10 30 Q 50 10, 90 30" stroke="rgba(217,50,40,0.6)" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#arrowhead2)" />
+            </svg>
+          </div>
+          <div class="step-card">
+            <div class="step-image">
+              <img src="assets/images/auto.avif" alt="Recibís el informe" />
+            </div>
             <h3>Recibís el informe</h3>
-            <p>Informe inmediato por email con fotos, puntos críticos y recomendaciones prácticas para la negociación.</p>
+            <p>De inmediato por e-mail al finalizar la verificación. Completo, detallado y práctico.</p>
           </div>
         </div>
       </div>
