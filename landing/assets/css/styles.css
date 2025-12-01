@@ -58,15 +58,14 @@ body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helv
 .card { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius: 12px; padding: 1rem; box-shadow: 0 6px 30px rgba(0,0,0,0.08); }
 .card .card-icon { display:inline-block; font-weight:700; background: var(--navy); color:#fff; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:.8rem; }
 
-.feature-card { background: linear-gradient(180deg, #fff, #fbfbfb); border-radius: 12px; padding: 1.3rem; text-align:center; box-shadow: 0 10px 30px rgba(2,6,23,0.05); transition: transform .28s cubic-bezier(.2,.9,.4,.98), box-shadow .22s; }
-.feature-card img { width:56px; height:56px; object-fit:contain; margin-bottom: .7rem; }
-.feature-card:hover { transform: translateY(-8px) translateZ(0); box-shadow: 0 22px 60px rgba(2,6,23,0.12); }
-.features-grid { gap: 1.5rem; }
-.feature-card .feature-icon img { width:56px; height:56px; object-fit:contain; margin-bottom: .7rem; display:inline-block }
-.feature-card .feature-icon { display:block; margin: 0 auto 10px; }
-.feature-highlight { border: 1px solid rgba(217,50,40,0.06); box-shadow: 0 14px 40px rgba(217,50,40,0.04); }
-.feature-card h4{ margin-bottom: .5rem; }
-.feature-card p{ color:var(--muted); font-size:0.95rem }
+.feature-card { background: #fff; border-radius: 8px; padding: 1.5rem 1.2rem; text-align:center; box-shadow: none; border: 1px solid rgba(0,0,0,0.05); transition: transform .28s ease, box-shadow .22s ease; }
+.feature-card img { width:56px; height:56px; object-fit:contain; margin-bottom: 1rem; }
+.feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(2,6,23,0.08); }
+.features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 2rem; }
+.feature-card .feature-icon img { width:56px; height:56px; object-fit:contain; margin-bottom: 0.8rem; display:inline-block }
+.feature-card .feature-icon { display:block; margin: 0 auto 0.8rem; }
+.feature-card h4{ margin-bottom: 0.6rem; color: var(--accent); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2px; }
+.feature-card p{ color:var(--muted); font-size:0.85rem; line-height: 1.4; margin: 0; }
 
 .tech img { width: 100%; border-radius: 8px; object-fit:cover; height: 80px; }
 .tech-grid { gap: 1rem; }
@@ -118,7 +117,9 @@ body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helv
   .steps-grid{ grid-template-columns: 1fr; gap: 1.5rem }
   .connector-svg, .step-connector{ display:none }
   .step-card{ gap:1rem; }
-  .feature-card{ padding:1rem }
+  .features-grid{ grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+  .feature-card h4{ font-size: 0.9rem; }
+  .feature-card p{ font-size: 0.8rem; }
   .tech-grid{ grid-template-columns: repeat(2,1fr) }
 }
 
