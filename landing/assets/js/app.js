@@ -65,18 +65,28 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Simple carousel for testimonials
-  const carousel = document.querySelector('.carousel');
-  if (carousel) {
-    let idx = 0; const children = Array.from(carousel.children);
-    function show(i) {
-      children.forEach((c, idx2) => { c.style.display = (idx2 === i ? 'block' : 'none'); });
+  // Enhanced carousel for testimonials (filters for '.review' slides)
+  const reviewsContainer = document.querySelector('.carousel.reviews');
+  if (reviewsContainer) {
+    const slides = Array.from(reviewsContainer.querySelectorAll('.review'));
+    const prevBtn = reviewsContainer.querySelector('.carousel-prev');
+    const nextBtn = reviewsContainer.querySelector('.carousel-next');
+    let slideIndex = 0;
+    function showSlide(i) {
+      slides.forEach((s, k) => {
+        s.style.display = (k === i ? 'block' : 'none');
+        s.classList.toggle('active', k === i);
+      });
     }
-    show(idx);
-    setInterval(() => {
-      idx = (idx + 1) % children.length;
-      show(idx);
-    }, 4200);
+    showSlide(slideIndex);
+    // Autoplay
+    let autoplay = setInterval(() => {
+      slideIndex = (slideIndex + 1) % slides.length;
+      showSlide(slideIndex);
+    }, 5000);
+    // Controls
+    prevBtn && prevBtn.addEventListener('click', () => { clearInterval(autoplay); slideIndex = (slideIndex - 1 + slides.length) % slides.length; showSlide(slideIndex); });
+    nextBtn && nextBtn.addEventListener('click', () => { clearInterval(autoplay); slideIndex = (slideIndex + 1) % slides.length; showSlide(slideIndex); });
   }
 
   // Nav toggle
