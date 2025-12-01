@@ -1,0 +1,16 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900' preserveAspectRatio='xMidYMid slice'>
+  <defs>
+    <linearGradient id='g' x1='0' x2='1'>
+      <stop offset='0' stop-color='#00a86b'/>
+      <stop offset='1' stop-color='#007a57'/>
+    </linearGradient>
+    <filter id='grain'><feTurbulence baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/></filter>
+  </defs>
+  <rect width='1600' height='900' fill='url(#g)'/>
+  <g fill='rgba(255,255,255,0.08)'>
+    <circle cx='200' cy='200' r='120' />
+    <circle cx='1100' cy='150' r='200' />
+    <circle cx='1400' cy='700' r='90' />
+  </g>
+  <text x='50%' y='46%' font-family='Inter,Arial' font-size='44' fill='rgba(255,255,255,0.95)' text-anchor='middle' font-weight='700'>Verificación precompra del automotor</text>
+</svg>
