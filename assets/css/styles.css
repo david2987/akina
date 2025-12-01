@@ -289,10 +289,10 @@ a:focus { outline: 3px dashed rgba(0,168,107,0.6); }
 button:focus { outline: 3px dashed rgba(0,168,107,0.6); }
 
 /* WhatsApp Floating Button */
-.whatsapp-float { position: fixed; bottom: 2rem; right: 2rem; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3); transition: all 0.3s ease; z-index: 999; animation: float 3s ease-in-out infinite; }
-.whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 12px 32px rgba(37, 211, 102, 0.4); }
-.whatsapp-float svg { width: 28px; height: 28px; }
+.whatsapp-float { position: fixed; bottom: 2rem; right: 2rem; width: 64px; height: 64px; background: linear-gradient(135deg, #25D366, #20BA5D); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.35); transition: all 0.3s cubic-bezier(0.2, 0.9, 0.2, 1); z-index: 999; animation: float 3s ease-in-out infinite; }
+.whatsapp-float:hover { transform: scale(1.12); box-shadow: 0 15px 40px rgba(37, 211, 102, 0.45); }
+.whatsapp-float svg { width: 32px; height: 32px; stroke-width: 1.5; }
 
-@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
 
-@media (max-width: 880px) { .whatsapp-float { bottom: 1.5rem; right: 1.5rem; width: 56px; height: 56px; } .whatsapp-float svg { width: 24px; height: 24px; } }
+@media (max-width: 880px) { .whatsapp-float { bottom: 1.5rem; right: 1.5rem; width: 60px; height: 60px; } .whatsapp-float svg { width: 28px; height: 28px; } }
