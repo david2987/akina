@@ -91,15 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Sticky header on scroll
   let prevScroll = window.pageYOffset;
   const header = document.querySelector('.site-header');
-  window.addEventListener('scroll', () => {
-    const s = window.pageYOffset;
-    if (s > 40) {
-      header.classList.add('sticky');
-    } else {
-      header.classList.remove('sticky');
-    }
-    prevScroll = s;
-  });
+    // No sticky header: We keep the header static to avoid layout blocking when scrolling.
 
   // Contact form simulation
   const contactForm = document.querySelector('.contact-form');

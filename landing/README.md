@@ -10,6 +10,7 @@ Características implementadas:
 - Responsive: adaptada a dispositivos móviles
 - Paleta y logo actualizados: navy (#0b2b4b) y rojo accent (#d93228)
 - Mejoras visuales: header sticky, hero pill, botones y micro-interacciones
+ - Mejoras visuales: header static (no sticky), hero pill, botones y micro-interacciones
 
 Cómo probar localmente (Windows + XAMPP):
 1. Asegúrate de que `landing` está en la raíz de tu servidor local (por ejemplo `C:\xampp\htdocs\akina`).

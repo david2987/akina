@@ -14,5 +14,5 @@
   <g transform='translate(1300,80) scale(1.1)'>
     <path d='M35 60c10-8 18-12 38-12' stroke='#d93228' stroke-width='18' stroke-linecap='round' fill='none' />
   </g>
-  <text x='52%' y='46%' font-family='Inter,Arial' font-size='44' fill='rgba(255,255,255,0.96)' text-anchor='middle' font-weight='700'>Akina — Verificación precompra del automotor</text>
+  <!-- Background image only - No text to avoid overlap with the page heading -->
 </svg>
