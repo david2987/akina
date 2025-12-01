@@ -92,18 +92,23 @@ body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helv
 .review .stars{ color:var(--accent); font-weight:600; margin-top:4px }
 .review .quote{ font-size:1.02rem; color:#222; margin:0 }
 
-/* Steps layout */
-.steps-wrapper{ display:flex; align-items:center; gap:1rem; justify-content:space-between; margin-top:1.6rem }
-.step{ display:flex; align-items:center; gap:1.2rem; flex:1 }
-.step-icon{ width:64px; height:64px; border-radius:16px; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; background: linear-gradient(180deg,var(--navy), #0b2b60); box-shadow: 0 6px 22px rgba(11,43,75,0.12); font-size:1.3rem }
-.step-body h3{ margin:0 0 .4rem 0 }
-.step-body p{ margin:0; color:var(--muted); font-size:0.96rem }
+/* Steps layout with gray background */
+.steps{ background: #f8f9fb; margin: 0 -200vw; padding: 2.5rem calc(200vw - 45vw); }
+.steps-wrapper{ display:flex; align-items:stretch; gap:2rem; justify-content:space-between; margin-top:2rem; perspective: 1200px; }
+.step{ display:flex; align-items:stretch; gap:1.8rem; flex:1; position:relative; }
+.step-icon{ width:80px; height:80px; min-width:80px; border-radius:20px; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; background: linear-gradient(135deg, var(--navy), #0f3a6b); box-shadow: 0 10px 30px rgba(11,43,75,0.15); font-size:1.5rem; flex-shrink:0; }
+.step-body{ flex:1; display:flex; flex-direction:column; justify-content:flex-start; }
+.step-body h3{ margin:0.2rem 0 .8rem 0; color: var(--navy); font-size:1.1rem; font-weight:700 }
+.step-body p{ margin:0; color:var(--muted); font-size:0.95rem; line-height:1.5 }
 .connector{ width:28px; height:4px; background: linear-gradient(90deg, rgba(217,50,40,0.8), rgba(11,43,75,0.3)); border-radius:6px; }
 
 @media (max-width:880px){
-  .steps-wrapper{ flex-direction:column; align-items:stretch }
-  .connector{ display:none }
-  .step{ padding: 1rem 0 }
+  .steps{ margin: 0; padding: 2rem 0; }
+  .steps-wrapper{ flex-direction:column; align-items:stretch; gap:1.5rem }
+  .connector-svg{ display:none }
+  .step{ gap:1rem; }
+  .step-icon{ width:72px; height:72px; font-size:1.3rem }
+  .step-body h3{ font-size:1rem }
   .feature-card{ padding:1rem }
   .tech-grid{ grid-template-columns: repeat(2,1fr) }
 }
