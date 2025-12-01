@@ -80,8 +80,13 @@ body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helv
 .tech-card figcaption strong{ display:block; color:var(--navy); font-weight:700 }
 .tech-card .tag{ display:inline-block; margin-top:6px; padding:3px 8px; background:rgba(11,43,75,0.06); color:var(--navy); border-radius:18px; font-size:0.78rem }
 .tech-card:hover{ transform: translateY(-6px); box-shadow: 0 22px 60px rgba(2,6,23,0.12); }
-.number-block { text-align:center; padding: 2rem 1rem; }
-.number-block h3 { font-size: 1.5rem; color: var(--navy); }
+.numbers-bg { background: #c21e1e; margin: 0 -200vw; padding: 4rem calc(200vw - 45vw); }
+.numbers-bg h2 { color: #fff; text-align: center; }
+.numbers-bg h2::after { background: linear-gradient(90deg, #fff, rgba(255,255,255,0.3)); margin: 0.6rem auto; }
+.numbers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 2.5rem; }
+.number-block { text-align: center; padding: 1rem; }
+.number-block h3 { font-size: 3.2rem; color: #fff; font-weight: 800; margin-bottom: 0.8rem; letter-spacing: -0.02em; }
+.number-block p { color: rgba(255,255,255,0.9); font-size: 0.95rem; line-height: 1.5; margin: 0; }
 .testimonials .carousel { display:flex; gap:10px; overflow:hidden; }
 .testimonials .carousel { display:flex; gap:14px; align-items:center; position:relative; }
 .carousel-prev, .carousel-next{ background: var(--navy); color:#fff; border:0; width:40px; height:40px; border-radius:50%; position:absolute; top:50%; transform: translateY(-50%); cursor:pointer; box-shadow:0 10px 30px rgba(2,6,23,0.12) }
@@ -129,7 +134,10 @@ body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helv
   .tech-item{ flex: 0 0 calc(50% - 0.5rem); min-width: 120px; }
   .tech-item img{ height: 100px; }
   .tech-item p{ font-size: 0.8rem; }
-  .tech-grid{ grid-template-columns: repeat(2,1fr) }
+  .numbers-bg{ margin: 0; padding: 2rem 0; }
+  .numbers-grid{ grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .number-block h3{ font-size: 2rem; }
+  .number-block p{ font-size: 0.85rem; }
 }
 
 /* contact */
