@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <style>.cls-1{fill:#0b2b4b}.cls-2{fill:#d93228}.cls-3{fill:#fff}</style>
+  </defs>
+  <circle cx="100" cy="100" r="92" class="cls-1"/>
+  <path d="M36 120c6-22 28-28 52-28s46 6 60 28c-24 16-84 16-112 0z" fill="#fff" opacity="0.1"/>
+  <g transform="translate(25,18) scale(0.8)">
+    <rect x="10" y="34" rx="8" width="140" height="68" class="cls-1" />
+    <path d="M10,62 C10,56 18,48 38,48 C58,48 76,58 96,58 C116,58 132,50 150,50 L150,100 L10,100 Z" fill="#fff" opacity="0.09"/>
+    <path d="M18 62h118" stroke="#fff" stroke-opacity="0.06" stroke-width="2"/>
+    <rect x="34" y="25" rx="6" width="38" height="32" fill="#0b2b4b" stroke="#0b2b4b"/>
+    <rect x="108" y="25" rx="6" width="38" height="32" fill="#0b2b4b" stroke="#0b2b4b"/>
+  </g>
+  <path d="M56 138c20-20 36-28 78-28" fill="none" stroke="#d93228" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

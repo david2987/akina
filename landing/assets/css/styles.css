@@ -16,14 +16,14 @@ body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helv
 /* Header / Nav */
 .site-header { position: relative; z-index: 10; transition: all .28s ease; }
 .nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; transition: padding .22s ease; }
-.logo img.brand-logo{height:40px;width:auto;display:block}
+.logo img.brand-logo{height:60px;width:auto;display:block}
 .logo { display:flex; align-items:center; gap:1rem; }
 .nav-links { list-style: none; display:flex; gap:1rem; align-items:center; }
-.nav-links a{ color: #fff; transition: color .15s ease; }
+.nav-links a{ color: #000; transition: color .15s ease; }
 .nav-links a:hover{ color: var(--accent); }
 .site-header.sticky .nav-links a{ color: var(--navy) !important; }
 /* Remove sticky visual behavior (will not set position:fixed). Keep helper classes for future use */
-.nav-links a { color: #fff; text-decoration: none; padding: .5rem .8rem; border-radius: 10px; opacity: 0.95; }
+.nav-links a { color: #000; text-decoration: none; padding: .5rem .8rem; border-radius: 10px; opacity: 0.95; }
 .nav-links a.cta { background: var(--accent); color:#fff; font-weight:600; box-shadow: 0 6px 20px rgba(217,50,40,0.18); }
 .nav-toggle { display:none; }
 
