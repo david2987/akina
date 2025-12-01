@@ -13,11 +13,32 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Reveal on scroll
-  const reveals = document.querySelectorAll('.reveal, .card, .feature-card, .number-block');
+  const reveals = document.querySelectorAll('.reveal, .card, .feature-card, .number-block, .step-icon, .connector-svg, .tech-card, .step, .review');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('show');
+        const el = entry.target;
+        el.classList.add('show');
+        // play pop on step icons
+        if (el.classList.contains('step-icon')) {
+          el.classList.add('play-pop');
+        }
+        // animate connector SVGs
+        if (el.classList && el.classList.contains('connector-svg')) {
+          el.classList.add('play');
+        }
+        // tech-card animation
+        if (el.classList && el.classList.contains('tech-card')) {
+          el.classList.add('play-slide');
+          const img = el.querySelector('img');
+          img && img.classList.add('play-pop');
+          // float-slow micro-motion
+          img && img.classList.add('float-slow');
+        }
+        // review slide animation
+        if (el.classList && el.classList.contains('review')) {
+          el.classList.add('active');
+        }
       }
     });
   }, { threshold: 0.12 });
