@@ -18,7 +18,7 @@ body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helv
 /* Header / Nav */
 .site-header { position: relative; z-index: 10; transition: all .28s ease; }
 .nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; transition: padding .22s ease; }
-.logo img.brand-logo{height:60px;width:auto;display:block}
+.logo img.brand-logo{height:120px;width:auto;display:block}
 .logo { display:flex; align-items:center; gap:1rem; }
 .nav-links { list-style: none; display:flex; gap:1rem; align-items:center; }
 .nav-links a{ color: #000; transition: color .15s ease; }
@@ -242,3 +242,12 @@ body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helv
 /* accessibility */
 a:focus { outline: 3px dashed rgba(0,168,107,0.6); }
 button:focus { outline: 3px dashed rgba(0,168,107,0.6); }
+
+/* WhatsApp Floating Button */
+.whatsapp-float { position: fixed; bottom: 2rem; right: 2rem; width: 60px; height: 60px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3); transition: all 0.3s ease; z-index: 999; animation: float 3s ease-in-out infinite; }
+.whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 12px 32px rgba(37, 211, 102, 0.4); }
+.whatsapp-float svg { width: 28px; height: 28px; }
+
+@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+
+@media (max-width: 880px) { .whatsapp-float { bottom: 1.5rem; right: 1.5rem; width: 56px; height: 56px; } .whatsapp-float svg { width: 24px; height: 24px; } }
