@@ -197,7 +197,7 @@ body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helv
 
 /* Footer */
 .site-footer { background: #3a3a3a; color: #ccc; }
-.footer-content { display: grid; grid-template-columns: 1fr 3fr; gap: 3rem; padding: 3rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.footer-content { display: grid; grid-template-columns: 2fr 3fr; gap: 3rem; padding: 3rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .footer-brand { padding-right: 2rem; }
 .footer-logo h3 { color: #fff; font-size: 2rem; font-weight: 800; margin: 0 0 0.5rem 0; letter-spacing: -0.02em; }
 .logo-underline { width: 40px; height: 3px; background: var(--accent); margin-bottom: 1.5rem; }
