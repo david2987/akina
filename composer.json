@@ -1,0 +1,13 @@
+{
+    "name": "akina/contact-form",
+    "description": "Formulario de contacto para Akina Check Auto",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Akina\\": "src/"
+        }
+    }
+}

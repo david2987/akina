@@ -124,15 +124,85 @@ document.addEventListener('DOMContentLoaded', function () {
   const header = document.querySelector('.site-header');
     // No sticky header: We keep the header static to avoid layout blocking when scrolling.
 
-  // Contact form simulation
+  // Contact form with AJAX submission
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = contactForm.querySelector('input[type=text]')?.value || 'Cliente';
-      alert(`Gracias ${name}. Tu mensaje fue recibido. Nos contactaremos pronto.`);
-      contactForm.reset();
+      
+      // Obtener datos del formulario
+      const formData = new FormData(contactForm);
+      const submitButton = contactForm.querySelector('button[type="submit"]');
+      const originalButtonText = submitButton.textContent;
+      
+      // Deshabilitar botón y mostrar estado de carga
+      submitButton.disabled = true;
+      submitButton.textContent = 'Enviando...';
+      submitButton.style.opacity = '0.7';
+      
+      try {
+        // Enviar datos al servidor
+        const response = await fetch('send-email.php', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          // Mostrar mensaje de éxito
+          showNotification('success', result.message);
+          contactForm.reset();
+        } else {
+          // Mostrar mensaje de error
+          showNotification('error', result.message || 'Error al enviar el mensaje. Por favor, intenta nuevamente.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showNotification('error', 'Error de conexión. Por favor, verifica tu conexión a internet e intenta nuevamente.');
+      } finally {
+        // Restaurar botón
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+        submitButton.style.opacity = '1';
+      }
     });
+  }
+  
+  // Función para mostrar notificaciones elegantes
+  function showNotification(type, message) {
+    // Remover notificación existente si hay alguna
+    const existingNotification = document.querySelector('.custom-notification');
+    if (existingNotification) {
+      existingNotification.remove();
+    }
+    
+    // Crear notificación
+    const notification = document.createElement('div');
+    notification.className = `custom-notification ${type}`;
+    
+    // Icono según el tipo
+    const icon = type === 'success' 
+      ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>'
+      : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+    
+    notification.innerHTML = `
+      <div class="notification-icon">${icon}</div>
+      <div class="notification-message">${message}</div>
+      <button class="notification-close" onclick="this.parentElement.remove()">×</button>
+    `;
+    
+    // Agregar al DOM
+    document.body.appendChild(notification);
+    
+    // Animar entrada
+    setTimeout(() => notification.classList.add('show'), 10);
+    
+    // Auto-remover después de 5 segundos
+    setTimeout(() => {
+      notification.classList.remove('show');
+      setTimeout(() => notification.remove(), 300);
+    }, 5000);
   }
 
 });

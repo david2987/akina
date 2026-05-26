@@ -10,7 +10,7 @@ html,body { height: 100%; }
 }
 body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color: #122; line-height: 1.6; background: var(--bg); }
 .container { width: 90%; max-width: 1100px; margin: 0 auto; }
-.section { padding: 4rem 0; }
+/* .section { padding: 4rem 0; } */
 .section h2{ font-size: clamp(1.6rem, 2.8vw,1.9rem); color: var(--navy); margin-bottom: .6rem }
 .section h2::after{ content:''; display:block; width:64px; height:4px; background: linear-gradient(90deg,var(--accent),var(--navy)); border-radius:4px; margin-top:.6rem }
 .lead { color: #495; font-size: 1.1rem; margin-bottom: 1.5rem; }
@@ -18,7 +18,7 @@ body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helv
 /* Header / Nav */
 .site-header { position: relative; z-index: 10; transition: all .28s ease; }
 .nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; transition: padding .22s ease; }
-.logo img.brand-logo{height:120px;width:auto;display:block}
+.logo img.brand-logo{height:140px;width:auto;display:block}
 .logo { display:flex; align-items:center; gap:1rem; }
 .nav-links { list-style: none; display:flex; gap:1rem; align-items:center; }
 .nav-links a{ color: #000; transition: color .15s ease; }
@@ -285,6 +285,140 @@ button:focus { outline: 3px dashed rgba(0,168,107,0.6); }
 .whatsapp-float:hover { transform: scale(1.12); box-shadow: 0 15px 40px rgba(37, 211, 102, 0.45); }
 .whatsapp-float svg { width: 32px; height: 32px; stroke-width: 1.5; }
 
+
+.video-responsive-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100.00%; /* Para relación 16:9 (9 / 16 * 100) */
+  height: 0;
+  overflow: hidden;
+}
+
+.video-responsive-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
 
 @media (max-width: 880px) { .whatsapp-float { bottom: 1.5rem; right: 1.5rem; width: 60px; height: 60px; } .whatsapp-float svg { width: 28px; height: 28px; } }
+
+/* Custom Notifications */
+.custom-notification {
+  position: fixed;
+  top: -100px;
+  right: 2rem;
+  min-width: 320px;
+  max-width: 500px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 1.5rem;
+  z-index: 10000;
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.2, 1);
+  border-left: 5px solid;
+}
+
+.custom-notification.show {
+  top: 2rem;
+}
+
+.custom-notification.success {
+  border-left-color: #10b981;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+}
+
+.custom-notification.error {
+  border-left-color: #ef4444;
+  background: linear-gradient(135deg, #ffffff 0%, #fef2f2 100%);
+}
+
+.notification-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.custom-notification.success .notification-icon {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.custom-notification.error .notification-icon {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.notification-message {
+  flex: 1;
+  color: #1f2937;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.notification-close {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: rgba(0, 0, 0, 0.05);
+  color: #6b7280;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.notification-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #1f2937;
+}
+
+/* Botón de Acceso Admin */
+.btn-access {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: #0e2951;
+    color: #fff !important;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-access:hover {
+    background: #1a3a5c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(14, 41, 81, 0.3);
+}
+
+@media (max-width: 880px) {
+  .custom-notification {
+    right: 1rem;
+    left: 1rem;
+    min-width: auto;
+    max-width: none;
+  }
+  
+  .custom-notification.show {
+    top: 1rem;
+  }
+}

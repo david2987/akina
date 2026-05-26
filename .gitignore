@@ -1,0 +1,7 @@
+/old
+/vendor
+/node_modules
+/.env
+/.DS_Store
+akina_db.sql
+/admin/uploads/pdfs/
