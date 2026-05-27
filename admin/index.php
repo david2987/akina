@@ -301,8 +301,8 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="modal-body">
                     <p>El enlace permitirá al cliente visualizar el PDF durante el tiempo configurado en parámetros del sistema.</p>
-                    <p><strong>Tiempo de vigencia:</strong> <?= $params['tiempo_vigencia_minutos'] ?? 60 ?> minutos</p>
-                    <p><strong>Tiempo de visualización:</strong> <?= $params['tiempo_view_pdf_minutos'] ?? 30 ?> minutos</p>
+                    <p><strong>Tiempo de vigencia:</strong> <?= htmlspecialchars($params['tiempo_vigencia_dias'] ?? 30) ?> Días</p>
+                    <p><strong>Tiempo de visualización:</strong> <?= htmlspecialchars($params['tiempo_view_dias'] ?? 7) ?> Días</p>
                     <div id="enlaceGenerado" class="alert alert-info d-none"></div>
                 </div>
                 <div class="modal-footer">
@@ -399,9 +399,9 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
             .then(r => r.json())
             .then(data => {
                 if (data.success) {
-                    const baseUrl = window.location.origin + '/akina/public/ver-informe.php';
+                    const baseUrl = window.location.origin + '/public/ver-informe.php';
                     document.getElementById('enlaceGenerado').innerHTML = 
-                        '<strong>Enlace generado:</strong><br><a href="' + baseUrl + '?token=' + data.token + '" target="_blank">' + baseUrl + '?token=' + data.token + '</a>';
+                        '<strong>Enlace generado:</strong><br><a href="' + baseUrl + '?token=' + data.token + '" target="_blank"> Enlace de Informe </a>';
                     document.getElementById('enlaceGenerado').classList.remove('d-none');
                 } else {
                     alert(data.message || 'Error al generar enlace');
@@ -420,7 +420,7 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 .then(r => r.json())
                 .then(data => {
                     if (data.success && data.token) {
-                        const baseUrl = window.location.origin + '/akina/public/ver-informe.php';
+                        const baseUrl = window.location.origin + '/public/ver-informe.php';
                         const enlace = baseUrl + '?token=' + data.token;
                         navigator.clipboard.writeText(enlace).then(() => {
                             alert('Enlace copiado al portapapeles');

@@ -11,13 +11,13 @@ $pdo = initDB();
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $tiempo_vigencia = (int)($_POST['tiempo_vigencia_minutos'] ?? 60);
-    $tiempo_view = (int)($_POST['tiempo_view_pdf_minutos'] ?? 30);
+    $tiempo_vigencia = (int)($_POST['tiempo_vigencia_dias'] ?? 30);
+    $tiempo_view = (int)($_POST['tiempo_view_dias'] ?? 7);
     
-    $stmt = $pdo->prepare("UPDATE parametros SET valor = ? WHERE clave = 'tiempo_vigencia_minutos'");
+    $stmt = $pdo->prepare("INSERT INTO parametros (clave, valor) VALUES ('tiempo_vigencia_dias', ?) ON DUPLICATE KEY UPDATE valor = VALUES(valor)");
     $stmt->execute([$tiempo_vigencia]);
     
-    $stmt = $pdo->prepare("UPDATE parametros SET valor = ? WHERE clave = 'tiempo_view_pdf_minutos'");
+    $stmt = $pdo->prepare("INSERT INTO parametros (clave, valor) VALUES ('tiempo_view_dias', ?) ON DUPLICATE KEY UPDATE valor = VALUES(valor)");
     $stmt->execute([$tiempo_view]);
     
     $message = 'Parámetros actualizados correctamente';
@@ -69,13 +69,13 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 <h5 class="card-title mb-4">Configuración de Tiempos</h5>
                 <form method="POST">
                     <div class="mb-3">
-                        <label class="form-label">Tiempo de Vigencia del Enlace (minutos)</label>
-                        <input type="number" name="tiempo_vigencia_minutos" class="form-control" value="<?= htmlspecialchars($params['tiempo_vigencia_minutos'] ?? 60) ?>" min="1">
-                        <small class="text-muted">Tiempo desde que se genera el enlace hasta que puede ser visualesdo</small>
+                        <label class="form-label">Tiempo de Vigencia del Enlace (días)</label>
+                        <input type="number" name="tiempo_vigencia_dias" class="form-control" value="<?= htmlspecialchars($params['tiempo_vigencia_dias'] ?? 30) ?>" min="1">
+                        <small class="text-muted">Tiempo desde que se genera el enlace hasta que puede ser visualizado</small>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Tiempo de Visualización del PDF (minutos)</label>
-                        <input type="number" name="tiempo_view_pdf_minutos" class="form-control" value="<?= htmlspecialchars($params['tiempo_view_pdf_minutos'] ?? 30) ?>" min="1">
+                        <label class="form-label">Tiempo de Visualización del PDF (días)</label>
+                        <input type="number" name="tiempo_view_dias" class="form-control" value="<?= htmlspecialchars($params['tiempo_view_dias'] ?? 7) ?>" min="1">
                         <small class="text-muted">Tiempo máximo que el usuario podrá visualizar el PDF una vez accede al enlace</small>
                     </div>
                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
@@ -88,8 +88,8 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 <h5 class="card-title mb-3">Información</h5>
                 <p>Estos parámetros controlan la seguridad de los enlaces generados para los clientes:</p>
                 <ul>
-                    <li><strong>Tiempo de vigencia:</strong> Después de generar el enlace, el cliente debe esperar este tiempo para poder acceder al PDF.</li>
-                    <li><strong>Tiempo de visualización:</strong> Una vez que el cliente accede al enlace, podrá ver el PDF durante este período.</li>
+                    <li><strong>Tiempo de vigencia:</strong> Días desde que se genera el enlace hasta que el cliente puede acceder al PDF.</li>
+                    <li><strong>Tiempo de visualización:</strong> Días que el cliente tiene para visualizar el PDF una vez que accede al enlace.</li>
                 </ul>
             </div>
         </div>

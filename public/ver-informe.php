@@ -62,22 +62,21 @@ $stmt = $pdo->query("SELECT clave, valor FROM parametros");
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $params[$row['clave']] = $row['valor'];
 }
-$vigenciaMinutos = isset($params['tiempo_vigencia_minutos']) ? (int)$params['tiempo_vigencia_minutos'] : 60;
-$viewMinutos = isset($params['tiempo_view_pdf_minutos']) ? (int)$params['tiempo_view_pdf_minutos'] : 30;
+$vigenciaDias = isset($params['tiempo_vigencia_dias']) ? (int)$params['tiempo_vigencia_dias'] : 30;
+$viewDias = isset($params['tiempo_view_dias']) ? (int)$params['tiempo_view_dias'] : 7;
 
-$tiempoMinimo = $createdAt + ($vigenciaMinutos * 60);
+$tiempoMinimo = $createdAt + ($vigenciaDias * 86400);
 
-if ($now < $tiempoMinimo) {
-    $espera = ceil(($tiempoMinimo - $now) / 60);
-    showError('Enlace en Espera', 'Su enlace estará disponible en aproximadamente ' . $espera . ' minuto(s).');
-}
+// if ($now < $tiempoMinimo) {
+//     $espera = ceil(($tiempoMinimo - $now) / 60);
+//     showError('Enlace en Espera', 'Su enlace estará disponible en aproximadamente ' . $espera . ' minuto(s).');
+// }
 
 if ($now > strtotime($enlace['expires_at'])) {
     showError('Enlace Caducado', 'Si necesita un nuevo informe comuníquese con Akina Check.');
 }
 
 $remainingSeconds = strtotime($enlace['expires_at']) - $now;
-$remainingMinutos = ceil($remainingSeconds / 60);
 
 if ($remainingSeconds <= 0) {
     showError('Sesión Expirada', 'Su tiempo de visualización expiró.');
@@ -109,8 +108,7 @@ header('Pragma: no-cache');
         html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: #333; }
         .header { background: #0e2951; color: white; padding: 10px 15px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; height: 44px; }
         .header h4 { margin: 0; font-size: 14px; }
-        .timer { background: #ffc107; color: #000; padding: 6px 10px; text-align: center; font-size: 12px; font-weight: 600; position: fixed; top: 44px; left: 0; right: 0; z-index: 99; }
-        .viewer { position: fixed; top: 76px; left: 0; right: 0; bottom: 0; overflow: auto; background: #525659; -webkit-overflow-scrolling: touch; }
+        .viewer { position: fixed; top: 44px; left: 0; right: 0; bottom: 0; overflow: auto; background: #525659; -webkit-overflow-scrolling: touch; }
         .page { display: flex; justify-content: center; padding: 10px; }
         .page canvas { max-width: 100%; height: auto; box-shadow: 0 2px 10px rgba(0,0,0,0.5); background: white; }
         .controls { display: flex; justify-content: center; gap: 8px; padding: 10px; background: #222; position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; flex-wrap: wrap; }
@@ -129,10 +127,6 @@ header('Pragma: no-cache');
     <div class="header">
         <h4>Informe de Verificación</h4>
     </div>
-    <div class="timer" id="timer">
-        Tiempo restante: <span id="countdown"><?= $remainingMinutos ?></span> <span id="timerUnit">min</span>
-    </div>
-    
     <div class="viewer" id="viewer">
         <div id="loading" class="loading">Cargando informe...</div>
         <div id="pages"></div>
@@ -244,31 +238,11 @@ header('Pragma: no-cache');
         
         let fin = Date.now() + (<?= $remainingSeconds ?> * 1000);
         
-        function actualizarTimer() {
-            let restante = Math.ceil((fin - Date.now()) / 1000);
-            
-            if (restante <= 0) {
-                document.getElementById('timer').innerHTML = 'Tiempo agotado';
-                document.getElementById('timer').style.background = '#dc3545';
-                document.getElementById('timer').style.color = 'white';
+        setInterval(function() {
+            if (Math.ceil((fin - Date.now()) / 1000) <= 0) {
                 document.getElementById('expiredOverlay').classList.add('show');
-                return;
             }
-            
-            const mins = Math.ceil(restante / 60);
-            document.getElementById('countdown').textContent = mins;
-            document.getElementById('timerUnit').textContent = 'min';
-            
-            if (restante <= 60) {
-                document.getElementById('countdown').textContent = restante;
-                document.getElementById('timerUnit').textContent = 'seg';
-                document.getElementById('timer').style.background = '#dc3545';
-                document.getElementById('timer').style.color = 'white';
-            }
-        }
-        
-        actualizarTimer();
-        setInterval(actualizarTimer, 1000);
+        }, 10000);
         
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {

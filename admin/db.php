@@ -1,6 +1,6 @@
 <?php
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'akina_db');
+define('DB_NAME', 'akina_db_final');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
@@ -26,8 +26,8 @@ function initDB() {
     )");
     
     $pdo->exec("INSERT IGNORE INTO parametros (clave, valor) VALUES 
-        ('tiempo_vigencia_minutos', '60'),
-        ('tiempo_view_pdf_minutos', '30')");
+        ('tiempo_vigencia_dias', '30'),
+        ('tiempo_view_dias', '7')");
     
     $pdo->exec("CREATE TABLE IF NOT EXISTS clientes (
         id INT AUTO_INCREMENT PRIMARY KEY,

@@ -42,11 +42,11 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 }
 
 $token = bin2hex(random_bytes(32));
-$vigenciaMinutos = isset($params['tiempo_vigencia_minutos']) ? (int)$params['tiempo_vigencia_minutos'] : 60;
-$viewMinutos = isset($params['tiempo_view_pdf_minutos']) ? (int)$params['tiempo_view_pdf_minutos'] : 30;
+$vigenciaDias = isset($params['tiempo_vigencia_dias']) ? (int)$params['tiempo_vigencia_dias'] : 30;
+$viewDias = isset($params['tiempo_view_dias']) ? (int)$params['tiempo_view_dias'] : 7;
 
-$totalMinutos = $vigenciaMinutos + $viewMinutos;
-$expiresAt = date('Y-m-d H:i:s', time() + ($totalMinutos * 60));
+$totalSegundos = ($vigenciaDias + $viewDias) * 86400;
+$expiresAt = date('Y-m-d H:i:s', time() + $totalSegundos);
 
 $stmt = $pdo->prepare("INSERT INTO enlaces (cliente_id, token, expires_at) VALUES (?, ?, ?)");
 $stmt->execute([$cliente_id, $token, $expiresAt]);
