@@ -37,6 +37,10 @@ if (!empty($_GET['filter_modelo'])) {
     $where[] = "modelo LIKE ?";
     $paramsQuery[] = '%' . $_GET['filter_modelo'] . '%';
 }
+if (!empty($_GET['filter_anio'])) {
+    $where[] = "anio LIKE ?";
+    $paramsQuery[] = '%' . $_GET['filter_anio'] . '%';
+}
 if (!empty($_GET['filter_marca'])) {
     $where[] = "marca LIKE ?";
     $paramsQuery[] = '%' . $_GET['filter_marca'] . '%';
@@ -58,7 +62,7 @@ $totalPages = ceil($total / $perPage);
 
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'fecha';
 $order = isset($_GET['order']) && $_GET['order'] === 'asc' ? 'ASC' : 'DESC';
-$allowedSorts = ['fecha', 'nombre_apellido', 'telefono', 'email', 'marca', 'modelo', 'localidad'];
+$allowedSorts = ['fecha', 'nombre_apellido', 'telefono', 'email', 'marca', 'modelo', 'anio', 'localidad'];
 if (!in_array($sort, $allowedSorts)) $sort = 'fecha';
 
 $stmt = $pdo->prepare("SELECT * FROM clientes $whereClause ORDER BY $sort $order LIMIT $perPage OFFSET $offset");
@@ -138,6 +142,10 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <input type="text" name="filter_marca" class="form-control" placeholder="Buscar..." value="<?= htmlspecialchars($_GET['filter_marca'] ?? '') ?>">
                 </div>
                 <div class="col-md-2">
+                    <label class="form-label">Año</label>
+                    <input type="text" name="filter_anio" class="form-control" placeholder="ej: 2020" value="<?= htmlspecialchars($_GET['filter_anio'] ?? '') ?>">
+                </div>
+                <div class="col-md-2">
                     <label class="form-label">Localidad</label>
                     <input type="text" name="filter_localidad" class="form-control" placeholder="Buscar..." value="<?= htmlspecialchars($_GET['filter_localidad'] ?? '') ?>">
                 </div>
@@ -167,10 +175,12 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th>Teléfono</th>
                                 <th>Email</th>
                                 <th class="table-header-sort" onclick="sortTable('modelo')">Modelo ↕</th>
+                                <th class="table-header-sort" onclick="sortTable('anio')">Año ↕</th>
                                 <th class="table-header-sort" onclick="sortTable('marca')">Marca ↕</th>
                                 <th class="table-header-sort" onclick="sortTable('localidad')">Localidad ↕</th>
                                 <th>PDF</th>
                                 <th>Enlace</th>
+                                <th>Comprobante</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -182,6 +192,7 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?= htmlspecialchars($cliente['telefono']) ?></td>
                                 <td><?= htmlspecialchars($cliente['email']) ?></td>
                                 <td><?= htmlspecialchars($cliente['modelo'] ?? '-') ?></td>
+                                <td><?= htmlspecialchars($cliente['anio'] ?? '-') ?></td>
                                 <td><?= htmlspecialchars($cliente['marca'] ?? '-') ?></td>
                                 <td><?= htmlspecialchars($cliente['localidad'] ?? '-') ?></td>
                                 <td>
@@ -201,6 +212,23 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <button class="btn btn-sm btn-outline-success btn-sm d-block mt-1" onclick="copiarEnlace(<?= $cliente['id'] ?>)">📋 Copiar</button>
                                     <?php else: ?>
                                         <span class="badge bg-warning text-dark">Sin vínculo</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if ($cliente['importe']): ?>
+                                        <?php if ($cliente['comprobante_path']): ?>
+                                            <span class="badge bg-success">Generado</span>
+                                            <div class="d-flex gap-1 mt-1">
+                                                <a href="<?= htmlspecialchars($cliente['comprobante_path']) ?>" target="_blank" class="btn btn-sm btn-outline-secondary">Ver</a>
+                                                <button class="btn btn-sm btn-outline-warning" onclick="regenerarComprobante(<?= $cliente['id'] ?>)">Regenerar</button>
+                                                <button class="btn btn-sm btn-outline-info" onclick="enviarComprobante(<?= $cliente['id'] ?>)">Enviar</button>
+                                            </div>
+                                        <?php else: ?>
+                                            <span class="badge bg-secondary">Pendiente</span>
+                                            <button class="btn btn-sm btn-outline-info d-block mt-1" onclick="generarComprobante(<?= $cliente['id'] ?>)">Comprobante</button>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <span class="badge bg-light text-muted border">-</span>
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -263,19 +291,45 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label">Marca</label>
                                 <input type="text" name="marca" id="marca" class="form-control">
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label">Modelo</label>
                                 <input type="text" name="modelo" id="modelo" class="form-control">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Año</label>
+                                <input type="text" name="anio" id="anio" class="form-control" maxlength="4" placeholder="ej: 2020">
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Localidad</label>
                             <input type="text" name="localidad" id="localidad" class="form-control">
                         </div>
+                        <hr>
+                        <h6 class="card-subtitle mb-3 text-muted">Comprobante de Pago</h6>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Fecha de Pago</label>
+                                <input type="date" name="fecha_pago" id="fecha_pago" class="form-control" value="<?= date('Y-m-d') ?>">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Hora de Pago</label>
+                                <input type="time" name="hora_pago" id="hora_pago" class="form-control" value="<?= date('H:i') ?>">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Importe ($)</label>
+                                <input type="number" name="importe" id="importe" class="form-control" step="0.01" min="0" value="30000">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email para envío del Comprobante</label>
+                            <input type="email" name="email_pago" id="email_pago" class="form-control" placeholder="comprobante@ejemplo.com">
+                        </div>
+                        <div id="comprobanteActual" class="mb-2"></div>
+                        <hr>
                         <div class="mb-3">
                             <label class="form-label">Adjuntar PDF (solo admin)</label>
                             <input type="file" name="pdf" id="pdf" class="form-control" accept=".pdf">
@@ -283,6 +337,9 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" id="btnRegenerarComprobanteModal" style="display:none" onclick="regenerarComprobante(document.getElementById('clienteId').value)">Regenerar Comprobante</button>
+                        <button type="button" class="btn btn-info" id="btnGenerarComprobanteModal" style="display:none" onclick="generarComprobante(document.getElementById('clienteId').value)">Generar Comprobante</button>
+                        <button type="button" class="btn btn-success" id="btnEnviarComprobanteModal" style="display:none" onclick="enviarComprobante(document.getElementById('clienteId').value)">Enviar Comprobante</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
@@ -342,6 +399,7 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     document.getElementById('fecha').value = data.fecha || '';
                     document.getElementById('marca').value = data.marca || '';
                     document.getElementById('modelo').value = data.modelo || '';
+                    document.getElementById('anio').value = data.anio || '';
                     document.getElementById('localidad').value = data.localidad || '';
                     
                     if (data.pdf_path) {
@@ -350,10 +408,47 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         document.getElementById('pdfActual').innerHTML = '';
                     }
                     
+                    if (data.comprobante_path) {
+                        document.getElementById('comprobanteActual').innerHTML = '<small class="text-success">Comprobante generado: <a href="' + data.comprobante_path + '" target="_blank">Ver PDF</a></small>';
+                    } else {
+                        document.getElementById('comprobanteActual').innerHTML = '';
+                    }
+                    document.getElementById('fecha_pago').value = data.fecha_pago || '';
+                    document.getElementById('hora_pago').value = data.hora_pago || '';
+                    document.getElementById('importe').value = data.importe || '';
+                    document.getElementById('email_pago').value = data.email_pago || '';
+                    
+                    const btnGen = document.getElementById('btnGenerarComprobanteModal');
+                    const btnEnv = document.getElementById('btnEnviarComprobanteModal');
+                    const btnReg = document.getElementById('btnRegenerarComprobanteModal');
+                    if (data.importe) {
+                        btnGen.style.display = data.comprobante_path ? 'none' : 'inline-block';
+                        btnReg.style.display = data.comprobante_path ? 'inline-block' : 'none';
+                        btnEnv.style.display = data.comprobante_path ? 'inline-block' : 'none';
+                    } else {
+                        btnGen.style.display = 'none';
+                        btnReg.style.display = 'none';
+                        btnEnv.style.display = 'none';
+                    }
+                    
                     document.getElementById('modalTitle').textContent = 'Editar Cliente';
                     new bootstrap.Modal(document.getElementById('nuevoClienteModal')).show();
                 });
         }
+        
+        document.getElementById('nuevoClienteModal').addEventListener('show.bs.modal', function () {
+            const idInput = document.getElementById('clienteId');
+            if (!idInput.value || idInput.value === '0') {
+                // document.getElementById('fecha_pago').value = '';
+                // document.getElementById('hora_pago').value = '';
+                document.getElementById('importe').value = '';
+                document.getElementById('email_pago').value = '';
+                document.getElementById('comprobanteActual').innerHTML = '';
+                document.getElementById('btnGenerarComprobanteModal').style.display = 'none';
+                document.getElementById('btnRegenerarComprobanteModal').style.display = 'none';
+                document.getElementById('btnEnviarComprobanteModal').style.display = 'none';
+            }
+        });
         
         document.getElementById('clienteForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -407,6 +502,62 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     alert(data.message || 'Error al generar enlace');
                 }
             });
+        }
+        
+        function regenerarComprobante(id) {
+            if (!confirm('¿Regenerar el Comprobante de Pago? Se reemplazar\u00e1 el anterior.')) return;
+            fetch('api/comprobante.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cliente_id: id, regenerar: true })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Comprobante regenerado correctamente.');
+                    location.reload();
+                } else {
+                    alert(data.message || 'Error al regenerar comprobante');
+                }
+            })
+            .catch(e => alert('Error de red: ' + e.message));
+        }
+        
+        function generarComprobante(id) {
+            if (!confirm('¿Generar Comprobante de Pago para este cliente?')) return;
+            fetch('api/comprobante.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cliente_id: id })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Comprobante generado correctamente.');
+                    location.reload();
+                } else {
+                    alert(data.message || 'Error al generar comprobante');
+                }
+            })
+            .catch(e => alert('Error de red: ' + e.message));
+        }
+        
+        function enviarComprobante(id) {
+            if (!confirm('¿Enviar el comprobante por email al cliente?')) return;
+            fetch('api/enviar-comprobante.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cliente_id: id })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                } else {
+                    alert(data.message || 'Error al enviar comprobante');
+                }
+            })
+            .catch(e => alert('Error de red: ' + e.message));
         }
         
         function exportExcel() {

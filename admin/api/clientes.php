@@ -36,6 +36,10 @@ if (!empty($_GET['filter_marca'])) {
     $where[] = "marca LIKE ?";
     $params[] = '%' . $_GET['filter_marca'] . '%';
 }
+if (!empty($_GET['filter_anio'])) {
+    $where[] = "anio LIKE ?";
+    $params[] = '%' . $_GET['filter_anio'] . '%';
+}
 if (!empty($_GET['filter_localidad'])) {
     $where[] = "localidad LIKE ?";
     $params[] = '%' . $_GET['filter_localidad'] . '%';
@@ -46,7 +50,7 @@ $whereClause = count($where) > 0 ? 'WHERE ' . implode(' AND ', $where) : '';
 if (isset($_GET['export']) && $_GET['export'] === 'excel') {
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment; filename=clientes_akina_' . date('Ymd_His') . '.xls');
-    echo "Fecha\tNombre/Apellido\tTeléfono\tEmail\tMarca\tModelo\tLocalidad\tPDF Adjunto\n";
+    echo "Fecha\tNombre/Apellido\tTeléfono\tEmail\tMarca\tModelo\tAño\tLocalidad\tPDF Adjunto\n";
     
     $stmt = $pdo->prepare("SELECT * FROM clientes $whereClause ORDER BY fecha DESC");
     $stmt->execute($params);
@@ -59,6 +63,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'excel') {
         echo $row['email'] . "\t";
         echo ($row['marca'] ?? '') . "\t";
         echo ($row['modelo'] ?? '') . "\t";
+        echo ($row['anio'] ?? '') . "\t";
         echo ($row['localidad'] ?? '') . "\t";
         echo $pdf . "\n";
     }
